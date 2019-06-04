@@ -1,0 +1,263 @@
+---
+title: "Golem"
+output:
+  ioslides_presentation: default
+---
+## Golem
+
+![Golem](./golem.jpg)
+
+## Eksperyment 1
+
+* Porównujemy **2** hodowle _A. thaliana_ rosnące przy niskim lub wysokim natężeniu światła przez 21 dni.
+
+* Po upływie 3 tygodni zbieramy liście, ekstrahujemy barwniki i porówujemy zawartość chlorofilu całkowitego.
+
+* Czy warunki oświetlenia mają wpływ na zawartość chlorofili w liściach ?
+
+## Hipoteza zerowa
+
+* $H_{0}: brak \ istotnych \ różnic \ pomiędzy \ średnimi$
+
+* Test t (Studenta)
+
+$\ t=\frac{\overline{x}_{1}-\overline{x}_{2}}{\sqrt{\frac{S_{1}^{2}}{n_{1}}+\frac{S_{2}^{2}}{n_{1}}}}$
+
+* Jeżeli wartość **t** jest większa od wartości krytycznej odczytanej z tablic odrzucamy $H_{0}$!
+
+## Jak to policzyć?
+
+$\ t=\frac{\overline{x}_{LL}-\overline{x}_{HL}}{\sqrt{\frac{S_{LL}^{2}}{n_{LL}}+\frac{S_{HL}^{2}}{n_{HL}}}}$
+
+$\ \overline{x}_{LL}$ - średnia zawartość chlorofilu w warunkach LL
+
+$\ S_{LL}$ - odchylenie standardowe zawartości chlorofilu w warunkach LL
+
+$\ n_{LL}$ - liczebność roślin w warunkach LL
+
+```{r, eval=FALSE}
+t.test(LL, HL)
+```
+
+## Laboratorium 2A
+
+1. Przypisz 2 grupom roślin HL i LL zawartości chlorofili
+
+```{r, eval=TRUE}
+HL = c(8.2, 6.5, 9, 8.7, 8.13)
+LL = c(10.5, 9.5, 10, 7.91, 9.2)
+```
+
+## Laboratorium 2B
+
+2. Narysuj wykres porównujący grupy
+
+```{r}
+boxplot(HL, LL)
+```
+
+## Laboratorium 2C
+
+3. Sprawdź testem t czy masz rację
+
+```{r}
+t.test(HL, LL)
+```
+
+## Eksperyment $\mu$
+
+```{r}
+set.seed(1234)
+dat <- data.frame(cond = factor(rep(c("A","B"), each=200)), 
+                  rating = c(rnorm(200),rnorm(200, mean=.8)))
+```
+
+## Eksperyment $\mu$
+```{r}
+hist(subset(dat, dat$cond=="A")$rating)
+```
+
+## Eksperyment $\mu$
+
+```{r}
+hist(subset(dat, dat$cond=="B")$rating)
+```
+
+## Eksperyment $\mu$
+
+```{r}
+a = sample(subset(dat, dat$cond == "A")$rating, 3)
+b = sample(subset(dat, dat$cond == "B")$rating, 3)
+
+t.test(a, b)
+```
+
+## Eksperyment $\mu$
+
+```{r}
+a = sample(subset(dat, dat$cond == "A")$rating, 3)
+b = sample(subset(dat, dat$cond == "B")$rating, 3)
+
+t.test(a, b)
+```
+
+## Eksperyment $\mu$
+
+```{r}
+a = sample(subset(dat, dat$cond == "A")$rating, 3)
+b = sample(subset(dat, dat$cond == "B")$rating, 3)
+
+t.test(a, b)
+```
+
+## Fortuna
+
+* tworzymy populację o średniej _mi1_ i odchyleniu standardowym _si1_
+
+* tworzymy populację o średniej _mi2_ i odchyleniu standardowym _si2_
+
+* z każdej populacji losujemy po kilka (_NP_) próbek
+
+* sprawdzamy czy populacje są istotnie różne testem t
+
+* _procedurę losowania i testowania powtarzamy 1000 razy_
+
+```{r, eval=FALSE}
+pval <- function(NP=3, mi1=0, mi2=1, si1=1, si2=1)
+{
+  a = rnorm(NP, mi1, si1)
+  b = rnorm(NP, mi2, si2)
+  t = t.test(a, b)
+  t$p.value
+}
+```
+
+## $\ \frac{\mu_1 - \mu_2}{\sigma} \ ( \Delta \mu = 0.5, \ \sigma_1 = \sigma_2 = 1)$
+
+![Wyniki 1](./half.png)
+
+## $\ \frac{\mu_1 - \mu_2}{\sigma} \ ( \Delta \mu = 1, \ \sigma_1 = \sigma_2 = 1)$
+
+![Wyniki 2](./one.png)
+
+## $\ \frac{\mu_1 - \mu_2}{\sigma} \ ( \Delta \mu = 2, \ \sigma_1 = \sigma_2 = 1)$
+
+![Wyniki 3](./two.png)
+
+## $\ \frac{\mu_1 - \mu_2}{\sigma} \ ( \Delta \mu = 3, \ \sigma_1 = \sigma_2 = 1)$
+
+![Wyniki 4](./three.png)
+
+## Niech moc będzie z Tobą ;)
+
+* **Moc testu (moc statystyczna)** to prawdopodobieństwo niepopełnienia błędu drugiego rodzaju – nieodrzucenia hipotezy zerowej, gdy w rzeczywistości jest ona fałszywa. Im większe jest to prawdopodobieństwo, tym lepszy jest dany test jako narzędzie do różnicowania między hipotezą prawdziwą i fałszywą.
+
+* Moc zależy bezpośrednio i przede wszystkim od poniższych czynników:
+
+    * wielkości próby użytej w badaniu,
+    
+    * rzeczywistej wielkości efektu na tle losowej zmienności w populacji,
+    
+    * przyjętego poziomu istotności α (najczęściej 0,05).
+
+## Pakiet *"pwr"*
+
+* pwr.t.test(d=1, n=3, sig.level = 0.05)
+
+    * *d* - $\ \frac{\mu_1 - \mu_2}{\sigma}$
+
+    * *n* - liczba powtórzeń
+
+    * *sig.level* - prawdopodobieństwo, że średnie są równe ($H_0$!)
+
+* pwr.anona.test
+
+* pwr.norm.test
+
+## Pakiet *"pwr"*
+
+```{r}
+library(pwr)
+
+pwr.t.test(d=1, n=3, sig.level = 0.05)
+```
+
+## Pakiet *"pwr"*
+
+```{r}
+pwr.t.test(d=1, n=6, sig.level = 0.05)
+```
+
+## Moc testu t (d = 1, sig.level = 0.05)
+
+![Moc testu t](./moc.png)
+
+## Sposoby przedstawiania danych
+
+![Wykresy](./nmeth_a.png)
+
+## Sposoby przedstawiania danych
+
+![Wykresy](./nmeth_b.png)
+
+## Wczytywanie danych
+
+```{r, eval=FALSE}
+a_thaliana <- read.csv("~/Dokumenty/repetytorium/a_thaliana.csv",
+                       sep=";")
+library(readxl)
+a_thaliana2 <- read_excel("a_thaliana.xls")
+```
+
+## ggplot2 - Gramatyka grafiki
+
+```{r, eval=FALSE}
+library(ggplot2)
+
+p = ggplot(data = a_thaliana)
+
+p2 = p + geom_point(aes(x = as.factor(nutrient), y = total.fruits))
+
+p3 = p2 + geom_boxplot(aes(x = as.factor(nutrient), y = total.fruits))
+
+p4 = p + geom_jitter(aes(x = as.factor(nutrient), y = total.fruits))
+```
+
+## ggplot2 - Gramatyka grafiki
+
+```{r, eval=FALSE}
+p5 = p4 + xlab("skład pozywki") + ylab("liczba owocow")
+
+p6 = p5 + theme_classic()
+```
+
+## ggplot2 - Gramatyka grafiki - 3D
+
+```{r, eval=FALSE}
+p4 = p + geom_jitter(aes(x = as.factor(nutrient),
+                         y = total.fruits,
+                         color = reg))
+p5 = p4 + xlab("skład pozywki") + ylab("liczba owocow")
+p6 = p5 + theme_classic()
+```
+
+## ggplot2 - Gramatyka grafiki - 4D
+
+```{r, eval=FALSE}
+p4 = p + geom_jitter(aes(x = as.factor(nutrient),
+                         y = total.fruits,
+                         color = reg,
+                         shape = status))
+p5 = p4 + xlab("skład pozywki") + ylab("liczba owocow")
+p6 = p5 + theme_classic()
+```
+
+## ggplot2 - Gramatyka grafiki
+
+* [Przykłady zastosowania](https://bit.ly/2MqmL1A)
+
+* [Oficjalna dokumentacja](https://ggplot2.tidyverse.org/)
+
+* [R for data science](https://r4ds.had.co.nz/)
+
+* [R graphics cookbook](http://www.cookbook-r.com/Graphs/)

@@ -1,7 +1,8 @@
 ---
 title: "Golem"
 output:
-  ioslides_presentation: default
+  ioslides_presentation:
+    css: bigslides.css
 ---
 ## Przygotowanie stanowiska pracy
 
@@ -288,6 +289,36 @@ pwr.t.test(d=1, n=6, sig.level = 0.05)
 
 ![Labirynt](./labirynt_b.png)
 
+## Test Manna-Whitneya-Wilcoxona
+
+* zaproponowany w latach 1945 - 1947
+
+* obserwacje są niezależne
+
+* zmienne można uporządkować
+
+* **rozkłady nie muszą być normalne**
+
+## Wpływ rodzaju gleby na długość systemu korzeniowego
+
+```{r}
+gsu = c(18, 18, 21, 17, 19, 18, 16, 16) # Gleby słabo ukształtowane
+gc = c(18, 12, 11, 12, 10, 11, 14, 17) # Gleby czarnoziemne
+boxplot(gsu, gc)
+```
+
+## Wpływ rodzaju gleby na długość systemu korzeniowego
+
+```{r}
+# Gleby słabo ukształtowane (gsu)
+gsu = c(18, 18, 21, 17, 19, 18, 16, 16)
+# Gleby czarnoziemne (gc)
+gc = c(18, 12, 11, 12, 10, 11, 14, 17)
+
+# Porównanie
+wilcox.test(gsu, gc)
+```
+
 ## Mapa
 
 ![Labirynt](./labirynt_c.png)
@@ -324,7 +355,7 @@ $P_{całkowite(n)} = \prod_{k=0}^{n-1} P$
 
 *  regreja liniowa (*lm*)
 
-$ y = X B = X_{1} \beta_{1} + X_{2} \beta_{2} + ... + X_{n} \beta_{n}  + \epsilon$
+$y = X B = X_{1} \beta_{1} + X_{2} \beta_{2} + ... + X_{n} \beta_{n}  + \epsilon$
 
 * regresja nieliniowa
 
@@ -429,3 +460,21 @@ p6 = p5 + theme_classic()
 * [R for data science](https://r4ds.had.co.nz/)
 
 * [R graphics cookbook](http://www.cookbook-r.com/Graphs/)
+
+## Bibliografia
+
+* Przemysław Biecek **Przewodnik po pakiecie R.**; GiS, 2017,
+
+    * **Analiza danych z programem R, Modele liniowe z efektami stałymi, losowymi i mieszanymi.**; PWN, 2013,
+
+    * **Eseje o sztuce wizualizacji danych.**; WUW, 2014,
+
+* Murray Logan **Biostatistical design and analysis using R. A practical guide.**; Wiley-Blackwell, 2012,
+
+* Hadley Wickham, Garrett Grolemund **R for data science: import, tidy, transform, visualize, and model data**; O’Reilly, 2017,
+
+    * https://r4ds.had.co.nz/,
+
+    * Hadley Wickham, Garrett Grolemund **Język R. Kompletny zestaw narzędzi dla analityków danych** Helion, 2017,
+
+*  Lander Jared P. **Język R dla każdego: zaawansowane analizy i grafika statystyczna. zaawansowane analizy i grafika statystyczna**; Promise, 2018,

@@ -1,0 +1,6 @@
+body slides > slide
+{
+  height: 900px;
+  width: 1200px;
+  margin-top: -450px;    /* half of height */
+}

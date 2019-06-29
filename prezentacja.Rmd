@@ -3,9 +3,101 @@ title: "Golem"
 output:
   ioslides_presentation: default
 ---
+## Przygotowanie stanowiska pracy
+
+* [Program R](https://www.r-project.org/)
+
+* [RStudio](https://www.rstudio.com/)
+
+* [Materiały](https://github.com/awerroes/repetytorium)
+
+## On-line
+
+* [Github](https://github.com/)
+
+* [Etherpad](https://ethercalc.org/)
+
+* [EtherCalc](https://ethercalc.org/)
+
+
 ## Golem
 
-![Golem](./golem.jpg)
+![Metoda naukowa](./golem.jpg)
+
+## Mapa
+
+![Labirynt](./labirynt.png)
+
+## Testy parametryczne i nie
+
+* niezależność
+
+* rozkład normalny
+
+* podobna wariancja (zmienność)
+
+## Rozkład normalny (Gaussa)
+
+![](./box_plot_rescale.png)
+
+## Inne rozkłady (ciągłe, dyskretne)
+
+* jednostajny
+
+* Bernoulliego
+
+* Poissona
+
+* studenta
+
+* $\chi^2$
+
+* ...
+
+## Test normalności QQnorm
+
+```{r}
+jednostajny = seq(1:100)
+normalny = rnorm(100, mean = 50, sd = 1)
+par(mfrow=c(1,2))
+qqnorm(jednostajny)
+qqnorm(normalny)
+```
+
+## Test Shapiro - Wilka
+
+```{r}
+jednostajny = seq(1:100)
+shapiro.test(jednostajny)
+```
+
+## Test Shapiro - Wilka
+
+```{r}
+normalny = rnorm(100, mean = 50, sd = 1)
+shapiro.test(normalny)
+```
+
+## Podobna wariancja - wykresy
+
+```{r}
+data("PlantGrowth")
+
+boxplot(weight ~ group, data = PlantGrowth,
+        ylab = "Sucha masa roslin")
+```
+
+## Podobna wariancja - **Test Bartletta**
+
+```{r}
+data("PlantGrowth")
+
+bartlett.test(weight ~ group, data = PlantGrowth)
+```
+
+## Mapa
+
+![Labirynt](./labirynt_a.png)
 
 ## Eksperyment 1
 
@@ -191,6 +283,82 @@ pwr.t.test(d=1, n=6, sig.level = 0.05)
 ## Moc testu t (d = 1, sig.level = 0.05)
 
 ![Moc testu t](./moc.png)
+
+## Mapa
+
+![Labirynt](./labirynt_b.png)
+
+## Mapa
+
+![Labirynt](./labirynt_c.png)
+
+## Porównanie wielu grup
+
+
+$Hipoteza: \mu_{0} = \mu_{1} = \mu_{2}$
+
+$P_{całkowite(3)} = prawdziwe \ jest \ pierwsze \ i \  drugie \ porównanie.$
+
+$P_{całkowite(3)} = P_{1}  P_{2}$
+
+$P_{całkowite(n)} = \prod_{k=0}^{n-1} P$
+
+## Mapa
+
+![Labirynt](./labirynt_d.png)
+
+## Mapa
+
+![Labirynt](./labirynt_f.png)
+
+## Mapa
+
+![Labirynt](./labirynt_g.png)
+
+
+## Mapa - regresja liniowa
+
+![Labirynt](./labirynt_e.png)
+
+## Regresja liniowa
+
+*  regreja liniowa (*lm*)
+
+$ y = X B = X_{1} \beta_{1} + X_{2} \beta_{2} + ... + X_{n} \beta_{n}  + \epsilon$
+
+* regresja nieliniowa
+
+* regresja uogólniona (*glm*)
+
+## Galton
+
+![Ojcowie i dzieci](./galton.png)
+
+## Galton
+
+```{r, eval= FALSE}
+library(ggplot2) #1
+library(UsingR) #2
+ggplot(data = galton) + #3
+  geom_jitter(aes(parent, child)) + #4
+  geom_smooth(aes(parent, child), method = 'lm') + #5
+  xlab("wzrost ojca") + #6
+  ylab("wzrost syna") + #7
+  theme_bw() #8
+```
+
+* *1, 2* - wczytuje pakiet do wyresów i pakiet z danymi,
+
+* *3, 4* - przypisuje dane do wykresu, rozrzuca punkty o tej samej wartości (jitter)
+
+* *5* - rysuje prostą regresji
+
+* *6, 7, 8* - opisuje osie, formatuje wykres
+
+
+## Mapa
+
+![Labirynt](./labirynt_h.png)
 
 ## Sposoby przedstawiania danych
 

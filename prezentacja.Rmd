@@ -20,10 +20,142 @@ output:
 
 * [EtherCalc](https://ethercalc.org/)
 
-
 ## Golem
 
 ![Metoda naukowa](./golem.jpg)
+
+## Mapa
+
+![Labirynt](./labirynt.png)
+
+## Sposoby przedstawiania danych
+
+![Wykresy](./nmeth_a.png)
+
+## Sposoby przedstawiania danych
+
+![Wykresy](./nmeth_b.png)
+
+## Gramatyka grafiki - ggplot2
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(PBImisc)
+
+ggplot(data = genomes) + geom_point(aes(x=temperature, y=size))
+```
+
+## Gramatyka grafiki - ggplot2
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(PBImisc)
+
+ggplot(data = genomes) + geom_point(aes(x=temperature, y=size)) +
+  geom_smooth(aes(x=temperature, y=size), method = 'lm')
+```
+
+## Gramatyka grafiki - ggplot2
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(PBImisc)
+
+ggplot(data = genomes) + geom_point(aes(x=temperature, y=size)) +
+  geom_smooth(aes(x=temperature, y=size), method = 'loess')
+```
+
+
+## Gramatyka grafiki - ggplot2
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(PBImisc)
+
+ggplot(data = genomes) + geom_point(aes(x=temperature, y=size)) +
+  geom_smooth(aes(x=temperature, y=size), method = 'loess') +
+  xlab("Temperatura środowiska") +
+  ylab("Wielkość genomu [Mpz]")
+```
+
+## Gramatyka grafiki - ggplot2
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(PBImisc)
+
+ggplot(data = genomes) + geom_point(aes(x=temperature, y=size)) +
+  geom_smooth(aes(x=temperature, y=size), method = 'loess') +
+  xlab("Temperatura środowiska") +
+  ylab("Wielkość genomu [Mpz]") +
+  ggtitle("Zależność wielkości genomu od temperatury środowiska") +
+  theme_bw()
+```
+
+## Gramatyka grafiki - ggplot2
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(PBImisc)
+
+ggplot(data = genomes) + geom_boxplot(aes(x=habitat, y=temperature)) +
+  xlab("Temperatura środowiska") +
+  ylab("Wielkość genomu [Mpz]")
+```
+
+## Gramatyka grafiki - ggplot2
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(PBImisc)
+
+ggplot(data = genomes) + geom_boxplot(aes(x=habitat, y=temperature)) +
+  geom_jitter(aes(x=habitat, y=temperature)) +
+  xlab("Temperatura środowiska") +
+  ylab("Wielkość genomu [Mpz]")
+```
+
+## Gramatyka grafiki - ggplot2
+
+```{r, eval=FALSE}
+library(ggplot2)
+library(PBImisc)
+
+ggplot(data = genomes) + geom_boxplot(aes(x=habitat, y=temperature)) +
+  geom_jitter(aes(x=habitat, y=temperature, color = temp.group)) +
+  xlab("Temperatura środowiska") +
+  ylab("Wielkość genomu [Mpz]") +
+  theme_bw()
+```
+
+
+## [r4photobiology](https://www.r4photobiology.info/)
+
+![Quantification of ultraviolet and visible radiation for photobiology](./r4photobiology.png)
+
+## Bioconductor
+
+![karyoploteR](./biocond.png)
+
+## Materiały
+
+* [ggplot2-tidyverse](https://ggplot2.tidyverse.org/)
+
+* [Cheat Sheets](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
+
+* [Rozszerzenia](http://www.ggplot2-exts.org/gallery/)
+
+* [GUI](https://github.com/gertstulp/ggplotgui)
+
+* [Przykłady zastosowania](https://bit.ly/2MqmL1A)
+
+* [Oficjalna dokumentacja](https://ggplot2.tidyverse.org/)
+
+* [R for data science](https://r4ds.had.co.nz/)
+
+* [R graphics cookbook](http://www.cookbook-r.com/Graphs/)
+
+* [Java Script - **Data-Driven Documents** - d3.js](https://github.com/d3/d3/wiki/Gallery)
 
 ## Mapa
 
@@ -241,7 +373,7 @@ pval <- function(NP=3, mi1=0, mi2=1, si1=1, si2=1)
 
 ![Wyniki 4](./three.png)
 
-## Niech moc będzie z Tobą ;)
+## Niech moc będzie z Tobą
 
 * **Moc testu (moc statystyczna)** to prawdopodobieństwo niepopełnienia błędu drugiego rodzaju – nieodrzucenia hipotezy zerowej, gdy w rzeczywistości jest ona fałszywa. Im większe jest to prawdopodobieństwo, tym lepszy jest dany test jako narzędzie do różnicowania między hipotezą prawdziwą i fałszywą.
 
@@ -334,17 +466,105 @@ $P_{całkowite(3)} = P_{1}  P_{2}$
 
 $P_{całkowite(n)} = \prod_{k=0}^{n-1} P$
 
+## Wpływ warunków eksperymentu na suchą masę roślin
+
+```{r}
+data("PlantGrowth")
+
+boxplot(weight ~ group, data = PlantGrowth,
+        ylab = "Sucha masa roslin")
+```
+
+## ANOVA - przykład
+
+```{r}
+data("PlantGrowth")
+summary(PlantGrowth)
+growth_model = aov(PlantGrowth$weight ~ PlantGrowth$group)
+summary(growth_model)
+```
+
+## ANOVA - testy post hoc
+
+```{r}
+TukeyHSD(growth_model)
+```
+
 ## Mapa
 
 ![Labirynt](./labirynt_d.png)
+
+## Nieparametryczna wersja ANOVA - **Kruskal-Wallis**
+
+```{r}
+root_length <- read.csv("./root_length.csv")
+summary(root_length)
+plot(root_length$place, root_length$root)
+```
+
+
+## Nieparametryczna wersja ANOVA - **Kruskal-Wallis**
+
+```{r}
+kruskal.test(root ~ place, data = root_length)
+```
+
+## **Kruskal-Wallis** - testy post hoc
+
+```{r}
+library(ggpubr)
+
+compare_means(root ~ place, data = root_length)
+```
 
 ## Mapa
 
 ![Labirynt](./labirynt_f.png)
 
-## Mapa
+## Korelacja
 
-![Labirynt](./labirynt_g.png)
+```{r}
+x = rnorm(1000, 5, 7) # losujemy liczby
+error = rnorm(1000, 0, 10) # dodajemy rozrzut
+y = 2*x + error # obliczamy zmienną skorelowaną
+plot(x, y)
+```
+
+## Korelacja
+
+```{r, eval=FALSE}
+x = rnorm(1000, 5, 7) # losujemy liczby
+error = rnorm(1000, 0, 10) # dodajemy rozrzut
+y = 2*x + error # obliczamy zmienną skorelowaną
+plot(x, y)
+
+cor(x,y)
+cor.test(x,y)
+```
+
+## Korelacja
+
+* Jak zmienić kierunek korelacji?
+
+* Jak zmienić wartość R^2 ?
+
+* Jak zwiększyć / zmniejszyć siłę korelacji?
+
+* Zaproponuj nową funkcję *y*, zrób wykres, policz korelację.
+
+## Korelacja wielu zmiennych
+
+[Corplot](./corplot.png)
+
+```{r, eval = FALSE}
+library(corrplot)
+mydata = read.csv("https://wiki.q-researchsoftware.com/images/b/b9/Ownership.csv",
+                  header = TRUE,
+                  fileEncoding="latin1")
+mydata.cor = cor(mydata, method = c("spearman"))
+                 
+corrplot(mydata.cor)
+```
 
 
 ## Mapa - regresja liniowa
@@ -386,80 +606,115 @@ ggplot(data = galton) + #3
 
 * *6, 7, 8* - opisuje osie, formatuje wykres
 
+## Anscombe
 
-## Mapa
-
-![Labirynt](./labirynt_h.png)
-
-## Sposoby przedstawiania danych
-
-![Wykresy](./nmeth_a.png)
-
-## Sposoby przedstawiania danych
-
-![Wykresy](./nmeth_b.png)
-
-## Wczytywanie danych
-
-```{r, eval=FALSE}
-a_thaliana <- read.csv("~/Dokumenty/repetytorium/a_thaliana.csv",
-                       sep=";")
-library(readxl)
-a_thaliana2 <- read_excel("a_thaliana.xls")
+```{r}
+data("anscombe")
+summary(anscombe)
 ```
 
-## ggplot2 - Gramatyka grafiki
+## Anscombe
 
-```{r, eval=FALSE}
-library(ggplot2)
-
-p = ggplot(data = a_thaliana)
-
-p2 = p + geom_point(aes(x = as.factor(nutrient), y = total.fruits))
-
-p3 = p2 + geom_boxplot(aes(x = as.factor(nutrient), y = total.fruits))
-
-p4 = p + geom_jitter(aes(x = as.factor(nutrient), y = total.fruits))
+```{r}
+data("anscombe")
+par(mfrow = c(2,2))
+plot(anscombe$x1, anscombe$y1, xlab = "dni", ylab = "liczba siewek", title("Eksperyment 1"))
+abline(coef = lm(y1~x1, data = anscombe)$coef, col = "red")
+plot(anscombe$x2, anscombe$y2, xlab = "dni", ylab = "liczba siewek", title("Eksperyment 2"))
+abline(coef = lm(y2~x2, data = anscombe)$coef, col = "blue")
+plot(anscombe$x3, anscombe$y3, xlab = "dni", ylab = "liczba siewek", title("Eksperyment 3"))
+abline(coef = lm(y3~x3, data = anscombe)$coef, col = "green")
+plot(anscombe$x4, anscombe$y4, xlab = "dni", ylab = "liczba siewek", title("Eksperyment 4"))
+abline(coef = lm(y4~x4, data = anscombe)$coef, col = "yellow")
 ```
 
-## ggplot2 - Gramatyka grafiki
+## Diagnostyka modelu - Eksperyment 1
 
-```{r, eval=FALSE}
-p5 = p4 + xlab("skład pozywki") + ylab("liczba owocow")
-
-p6 = p5 + theme_classic()
+```{r}
+par(mfrow = c(2,2))
+plot(lm(y1~x1, data = anscombe))
 ```
 
-## ggplot2 - Gramatyka grafiki - 3D
+## Diagnostyka modelu - Eksperyment 2
 
-```{r, eval=FALSE}
-p4 = p + geom_jitter(aes(x = as.factor(nutrient),
-                         y = total.fruits,
-                         color = reg))
-p5 = p4 + xlab("skład pozywki") + ylab("liczba owocow")
-p6 = p5 + theme_classic()
+```{r}
+par(mfrow = c(2,2))
+plot(lm(y2~x2, data = anscombe))
 ```
 
-## ggplot2 - Gramatyka grafiki - 4D
+## Diagnostyka modelu - Eksperyment 3
 
-```{r, eval=FALSE}
-p4 = p + geom_jitter(aes(x = as.factor(nutrient),
-                         y = total.fruits,
-                         color = reg,
-                         shape = status))
-p5 = p4 + xlab("skład pozywki") + ylab("liczba owocow")
-p6 = p5 + theme_classic()
+```{r}
+par(mfrow = c(2,2))
+plot(lm(y3~x3, data = anscombe))
 ```
 
-## ggplot2 - Gramatyka grafiki
+## Diagnostyka modelu - Eksperyment 4
 
-* [Przykłady zastosowania](https://bit.ly/2MqmL1A)
+```{r}
+par(mfrow = c(2,2))
+plot(lm(y4~x4, data = anscombe))
+```
 
-* [Oficjalna dokumentacja](https://ggplot2.tidyverse.org/)
+## Genomy - wielkość genomu, a udział par GC
 
-* [R for data science](https://r4ds.had.co.nz/)
+```{r}
+library(PBImisc)
+data("genomes")
 
-* [R graphics cookbook](http://www.cookbook-r.com/Graphs/)
+par(mfrow = c(1,2))
+plot(genomes$size, genomes$GC)
+plot(log(genomes$size), log(genomes$GC))
+```
+
+## Genomy - model 1
+
+```{r}
+library(PBImisc)
+data("genomes")
+
+model1 = lm(GC ~ size, data = genomes)
+summary(model1)
+```
+
+## Genomy - model 2
+
+```{r}
+library(PBImisc)
+data("genomes")
+
+model2 = lm(log(GC) ~ log(size), data = genomes)
+summary(model2)
+```
+
+## Genomy - model 1 vs 2
+
+```{r}
+par(mfrow = c(1,2))
+plot(model1$fitted.values, model1$residuals)
+plot(model2$fitted.values, model2$residuals)
+```
+
+## Genomy - model 3
+
+```{r}
+library(PBImisc)
+data("genomes")
+
+model2 = lm(log(GC) ~ log(size) + temperature, data = genomes)
+summary(model2)
+```
+
+## Genomy - model 4
+
+```{r}
+library(PBImisc)
+data("genomes")
+
+model2 = lm(log(GC) ~ log(size) + temperature + habitat, data = genomes)
+summary(model2)
+```
+
 
 ## Bibliografia
 
